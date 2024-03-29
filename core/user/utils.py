@@ -3,6 +3,7 @@ from .models import *
 import requests
 from datetime import date
 
+# Function to send email
 def send_email(receiver, pk):
     try:
         subject = 'It is test govno'
@@ -12,6 +13,7 @@ def send_email(receiver, pk):
     except:
         raise 
 
+# function for emailhunter API
 def check_email_existence(email):
     url = f'https://api.hunter.io/v2/email-verifier?email={email}&api_key=0fff49789882a99e01552503036c8fa757680b81'
 
