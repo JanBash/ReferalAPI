@@ -26,11 +26,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         email = attrs['email']
         
-        is_email = check_email_existence(email)
+        is_email = check_email_existence(email) # checking email existance with emailhunter API
         
         if not is_email:
             raise serializers.ValidationError({"email": "doesn't exist"})
-        
+
+        # Logic for referal_code
         if 'referal_code' in attrs:
             ref_code = attrs['referal_code']
             if ref_code != '':
@@ -86,7 +87,8 @@ class ReferCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         
         code = ''.join(choices(ascii_uppercase + digits, k = 10))
-        
+
+        # Code generation logic
         while True:
             code = ''.join(choices(ascii_uppercase + digits, k = 10)) 
             ref_instance = Refer.objects.filter(code=code).first()
