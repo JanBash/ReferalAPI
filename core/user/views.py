@@ -14,8 +14,7 @@ from rest_framework.generics import (
 from. models import MyUser, Refer
 
 from .serializers import (
-    UserCreateSerializer, 
-    UserListSerializer, 
+    UserCreateSerializer,
     ReferCreateSerializer,
     UserDetailSerializer,
     EmailSerializer
