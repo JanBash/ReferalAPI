@@ -25,7 +25,7 @@ from .utils import send_email
 
 from rest_framework.permissions import IsAuthenticated
 
-#Serializers
+# Views
 class UserCreateView(CreateAPIView):
     queryset = MyUser.objects.all()
     serializer_class = UserCreateSerializer
