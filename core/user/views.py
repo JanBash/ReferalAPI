@@ -1,3 +1,4 @@
+# Imports
 from rest_framework.views import (
     APIView, 
     Response, 
@@ -24,6 +25,7 @@ from .utils import send_email
 
 from rest_framework.permissions import IsAuthenticated
 
+#Serializers
 class UserCreateView(CreateAPIView):
     queryset = MyUser.objects.all()
     serializer_class = UserCreateSerializer
@@ -40,23 +42,8 @@ class UserDetailView(RetrieveAPIView):
     queryset = MyUser.objects.all()
     serializer_class = UserDetailSerializer
 
-# class ReferReceiveView(APIView):
-    
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-#         try:
-#             print(request.data)
-            
-#             send_email()
-            
-#             return Response({'message': 'Email sent with referral code'}, status=status.HTTP_200_OK)
-#         except Refer.DoesNotExist:
-#             return Response({'error': 'Referal code does not exist'}, status=status.HTTP_404_NOT_FOUND)
-#         except Exception as e:
-#             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 class EmailView(APIView):
+    # Email send logic
     def post(self, request):
         user = MyUser.objects.get(id = request.user.id)
         serializer = EmailSerializer(data = request.data)
