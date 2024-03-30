@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-en'
 
 TIME_ZONE = 'UTC'
 
@@ -150,5 +150,5 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sakirovzanbolot48@gmail.com' # <-- You can change email instance here
-EMAIL_HOST_PASSWORD = 'kgjb eswr wqul gaer' # <-- Code from Google
+EMAIL_HOST_USER = '' # <-- You can change email instance here
+EMAIL_HOST_PASSWORD = '' # <-- Code from Google
