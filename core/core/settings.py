@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Swagger
+    'drf_yasg',
     
     # DRF Apps
     'rest_framework',
