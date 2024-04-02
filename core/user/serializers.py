@@ -7,9 +7,6 @@ from string import ascii_uppercase, digits
 
 from .utils import check_email_existence
 
-import requests
-
-
 class UserCreateSerializer(serializers.ModelSerializer):
     
     referal_code = serializers.CharField(required = False, allow_blank = True, write_only = True)
@@ -116,5 +113,19 @@ class EmailSerializer(serializers.Serializer):
     message = serializers.CharField(read_only = True)
     receiver = serializers.EmailField()
     pk = serializers.IntegerField(read_only = True)
+
+class ReferDeleteSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Refer
+        fields = '__all__'
+
+class ReferDetailSerializer(serializers.ModelSerializer):
+    
+    user = UserDetailSerializer()
+    
+    class Meta:
+        model = Refer
+        fields = ('id', 'user', 'code', 'expire_date')
     
         

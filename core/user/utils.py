@@ -6,9 +6,9 @@ from datetime import date
 # Function to send email
 def send_email(receiver, pk):
     try:
-        subject = "You'r referal code"
+        subject = "Кто прочитал тот пидор"
         refer_obj = Refer.objects.filter(user = pk).filter(expire_date__gt = date.today()).first()
-        message = f'Referal code --> {refer_obj.code}' 
+        message = f'ХАХАХАХАХАХАХХА, ты пидор' 
         send_mail(subject, message, 'sakirovzanbolot48@gmail.com', receiver) # Change email to whatever email you want --> 'email@example.com'
     except:
         raise 

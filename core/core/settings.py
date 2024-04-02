@@ -151,4 +151,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sakirovzanbolot48@gmail.com' # <-- You can change email instance here
-EMAIL_HOST_PASSWORD = 'kgjb eswr wqul gaer' # <-- Code from Google
+EMAIL_HOST_PASSWORD = 'jxta uixe meut nkqw ' # <-- Code from Google
