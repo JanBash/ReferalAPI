@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     
     # DRF Apps
     'rest_framework',
+    'django_filters',
     
     #Custom Apps
     'user'

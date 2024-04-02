@@ -19,5 +19,6 @@ urlpatterns = [
     path('refer/', views.ReferCreateView.as_view()),
     path('refer_delete/<int:pk>/', views.ReferDeleteView.as_view()),
     path('user_detail/<int:pk>/', views.UserDetailView.as_view()),
-    path('refer_receive/', views.EmailView.as_view())
+    path('refer_receive/', views.EmailView.as_view()),
+    path('refer_list/', views.ReferListView.as_view())
 ]

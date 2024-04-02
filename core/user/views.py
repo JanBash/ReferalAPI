@@ -6,10 +6,10 @@ from rest_framework.views import (
 )
 
 from rest_framework.generics import (
-    CreateAPIView, 
-    DestroyAPIView,
+    CreateAPIView,
     RetrieveAPIView,
-    RetrieveDestroyAPIView
+    RetrieveDestroyAPIView,
+    ListAPIView
 )
 
 from. models import MyUser, Refer
@@ -20,12 +20,22 @@ from .serializers import (
     UserDetailSerializer,
     EmailSerializer,
     ReferDeleteSerializer,
-    ReferDetailSerializer
+    ReferDetailSerializer,
+    ReferListSerializer
 )
 
 from .utils import send_email
 
 from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.filters import (
+    SearchFilter,
+    OrderingFilter
+)
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
+
+from .filters import ReferFilter
 
 # Views
 class UserCreateView(CreateAPIView):
@@ -76,4 +86,18 @@ class EmailView(APIView):
             return Response({'message': 'Email sent succesfully'}, status = status.HTTP_200_OK)
         else:
             return Response(status = status.HTTP_400_BAD_REQUEST)
-        
+
+class ReferListPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class ReferListView(ListAPIView):
+    queryset = Refer.objects.all()
+    serializer_class = ReferListSerializer
+    filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
+    search_fields = ['user__username']
+    ordering_fields = ['created_date', 'expire_date']
+    filterset_class = ReferFilter
+    pagination_class = ReferListPagination
+    

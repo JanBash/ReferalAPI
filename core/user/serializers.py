@@ -127,5 +127,13 @@ class ReferDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Refer
         fields = ('id', 'user', 'code', 'expire_date')
+
+class ReferListSerializer(serializers.ModelSerializer):
+    
+    user = UserDetailSerializer()
+    
+    class Meta:
+        model = Refer
+        fields = ('id', 'user', 'code', 'created_date', 'expire_date')
     
         
