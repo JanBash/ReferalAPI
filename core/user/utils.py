@@ -6,20 +6,20 @@ from datetime import date
 # Function to send email
 def send_email(receiver, pk):
     try:
-        subject = "Кто прочитал тот пидор"
-        refer_obj = Refer.objects.filter(user = pk).filter(expire_date__gt = date.today()).first()
-        message = f'ХАХАХАХАХАХАХХА, ты пидор' 
-        send_mail(subject, message, 'sakirovzanbolot48@gmail.com', receiver) # Change email to whatever email you want --> 'email@example.com'
+        subject = "Title for mail"
+        refer_obj = Refer.objects.filter(user = pk).filter(expire_date__gt = date.today()).first() # to get referal code
+        message = f'Referal code --> {refer_obj.code}'  # main text
+        send_mail(subject, message, 'your_email', receiver) # Change email to whatever email you want --> 'email@example.com'
     except:
         raise 
 
 # function for emailhunter API
 def check_email_existence(email):
-    url = f"https://api.hunter.io/v2/email-verifier?email={email}&api_key='write_you'r_own_key_here'"
+    url = f"https://api.hunter.io/v2/email-verifier?email={email}&api_key=[your_special_key"
 
     response = requests.get(url)
     data = response.json()
-    print(data)
+    print(data['data'])
 
     if 'data' in data:
         if data['data']['status'] == 'valid' or data['data']['status'] == 'accept_all':
