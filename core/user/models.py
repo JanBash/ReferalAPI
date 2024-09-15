@@ -5,36 +5,38 @@ from django.contrib.auth.models import (
     AbstractBaseUser
 )
 
+
+
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
+    def create_user(self, username, email, password=None):
         """
         Creates and saves a User with the given email and password.
         """
-
+        
         user = self.model(
-            email=email,
             username=username,
-            
+            email=email,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None):
+    def create_superuser(self, username, email, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         user = self.create_user(
-            email=email,
             username=username,
+            email=email,
             password=password,
 
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
+
     
 class Refer(models.Model):
     user = models.ForeignKey(
@@ -103,4 +105,3 @@ class MyUser(AbstractBaseUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-        

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: core
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - keycloak
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    environment:
+      - POSTGRES_DB=refer
+      - POSTGRES_USER=janbash
+      - POSTGRES_PASSWORD=152020
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mynetwork
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    environment:
+      DB_VENDOR: h2
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: "true"
+    ports:
+      - "8080:8080"
+    command:
+      - start-dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mynetwork
+
+volumes:
+  db-data:
+
+networks:
+  mynetwork:

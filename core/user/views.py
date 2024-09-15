@@ -12,7 +12,7 @@ from rest_framework.generics import (
     ListAPIView
 )
 
-from. models import MyUser, Refer
+from .models import MyUser, Refer
 
 from .serializers import (
     UserCreateSerializer,
@@ -49,7 +49,6 @@ class ReferCreateView(CreateAPIView):
 class ReferDeleteView(RetrieveDestroyAPIView):
     queryset = Refer.objects.all()
     serializer_class = ReferDeleteSerializer
-    
     permission_classes = [IsAuthenticated]
     
     def get_serializer_class(self):
@@ -82,7 +81,7 @@ class EmailView(APIView):
         if serializer.is_valid(raise_exception = True):
             receiver = serializer.validated_data['receiver']
             
-            send_email(receiver = [receiver], pk = user.id)
+            send_email(receiver = receiver, pk = user.id)
             return Response({'message': 'Email sent succesfully'}, status = status.HTTP_200_OK)
         else:
             return Response(status = status.HTTP_400_BAD_REQUEST)
@@ -97,7 +96,7 @@ class ReferListView(ListAPIView):
     serializer_class = ReferListSerializer
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['user__username']
-    ordering_fields = ['created_date', 'expire_date']
+    ordering_fields = ['created_date', 'expire_date', 'user']
     filterset_class = ReferFilter
     pagination_class = ReferListPagination
     

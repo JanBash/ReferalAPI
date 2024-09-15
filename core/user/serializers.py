@@ -14,13 +14,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
         fields = (
-            'email', 
+            'email',
             'username',
             'password',
             'referal_code'
         )
     
     def validate(self, attrs):
+        print(attrs)
         email = attrs['email']
         
         is_email = check_email_existence(email) # checking email existance with emailhunter API
@@ -112,7 +113,6 @@ class EmailSerializer(serializers.Serializer):
     subject = serializers.CharField(default = 'It is test message')
     message = serializers.CharField(read_only = True)
     receiver = serializers.EmailField()
-    pk = serializers.IntegerField(read_only = True)
 
 class ReferDeleteSerializer(serializers.ModelSerializer):
     

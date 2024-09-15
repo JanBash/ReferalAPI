@@ -1,6 +1,6 @@
 from datetime import timedelta
+import os
 from pathlib import Path
-from decouple import config as config_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-(pe158a2%ws9r+*^cu2%4hblfs$8+l#q1f9g@!$3$9&zg-^-yp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'mozilla_django_oidc',
 
     # Swagger
     'drf_yasg',
@@ -55,7 +57,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +82,7 @@ DATABASES = {
         'NAME': 'refer',  # Имя вашей базы данных
         'USER': 'janbash',      # Имя вашего пользователя
         'PASSWORD': '152020',  # Ваш пароль
-        'HOST': 'localhost',   # Хост, на котором работает PostgreSQL
+        'HOST': 'db',   # Хост, на котором работает PostgreSQLos.path.join(BASE_DIR, 'templates')
         'PORT': '5432',            # Порт (по умолчанию 5432)
     }
 }
@@ -115,9 +117,22 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_REUSE_RESETS': True,  # Сбрасывать Refresh Token после успешного обновления
     'ROTATE_REFRESH_TOKENS': False,  # Вращать Refresh Token (если True, предыдущий Refresh Token становится недействительным после обновления)
     'ALGORITHM': 'HS256',  # Алгоритм подписи токенов
-    'AUTH_HEADER_TYPES': ('Bearer',),  # Тип HTTP заголовка, содержащего токен (обычно 'Bearer')
+    'SIGNING_KEY': 'your-signing-key',
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': 'http://keycloak:8080/realms/Django_Keycloak',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+
+AUTHENTICATION_BACKENDS = (
+    'core.auth.MyOIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Применение настроек в DRF
 REST_FRAMEWORK = {
@@ -129,6 +144,26 @@ REST_FRAMEWORK = {
     ),
 }
 
+OIDC_RP_SIGN_ALGO = 'RS256'
+
+# Настройки OIDC
+OIDC_RP_CLIENT_ID = 'django-client'
+OIDC_RP_CLIENT_SECRET = 'rcAYuVMHEC2fRxHeJ1J4Vyt6aUJKKFTB'
+OIDC_OP_JWKS_ENDPOINT = 'http://kubernetes.docker.internal:8080/realms/Django_Keycloak/protocol/openid-connect/certs'
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://kubernetes.docker.internal:8080/realms/Django_Keycloak/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://kubernetes.docker.internal:8080/realms/Django_Keycloak/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = 'http://kubernetes.docker.internal:8080/realms/Django_Keycloak/protocol/openid-connect/userinfo'
+OIDC_OP_LOGOUT_ENDPOINT = 'http://kubernetes.docker.internal:8080/realms/Django_Keycloak/protocol/openid-connect/logout'
+
+# Логин и логаут
+LOGIN_URL = '/oidc/authenticate/'
+LOGOUT_URL = '/oidc/logout/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+OIDC_STORE_ID_TOKEN = True
+OIDC_STORE_ACCESS_TOKEN = True
+ALLOW_LOGOUT_GET_METHOD = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -158,5 +193,5 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '' # <-- You can change email instance here
-EMAIL_HOST_PASSWORD = '' # <-- Code from Google
+EMAIL_HOST_USER = 'sakirovzanbolot48@gmail.com' # <-- You can change email instance here
+EMAIL_HOST_PASSWORD = 'obco otih izyc lzqu ' # <-- Code from Google
